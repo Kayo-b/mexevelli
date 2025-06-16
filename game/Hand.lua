@@ -17,7 +17,6 @@ function Hand:new()
 end
 
 function Hand:drawCards()
-    -- Fill hand 
     while #self.cards < self.maxCards do
         table.insert(self.cards, self:generateRandomCard());
     end;
@@ -35,9 +34,25 @@ end
 function Hand:generateRandomCard()
     local values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     local suits = {"hearts", "diamonds", "clubs", "spades"};
-    
+
     local randomValue = values[math.random(1, #values)];
     local randomSuit = suits[math.random(1, #suits)];
-    
+    print('random values: ', randomSuit, randomValue)
     return Card:new(randomValue, randomSuit);
 end
+
+function Hand:update(dt)
+    for i, card in ipairs(self.cards) do
+        card:update(dt)
+    end
+end
+
+function Hand:draw()
+    for i, card in ipairs(self.cards) do
+        card.x = self.x + (i - 1) * 60
+        card.y = self.y
+        card:draw()
+    end
+end
+
+return Hand;

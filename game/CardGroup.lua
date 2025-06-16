@@ -33,3 +33,24 @@ function CardGroup:draw()
         card:draw();
     end;
 end;
+
+function CardGroup:setPosition(x, y)
+    self.x = x
+    self.y = y
+    
+    -- If you also want to update individual card positions
+    for i, card in ipairs(self.cards) do
+        card.x = x + (i - 1) * (card.width + 5) -- Space cards out
+        card.y = y
+    end
+end
+
+function CardGroup:getWidth()
+    if #self.cards == 0 then return 0 end
+    
+    local cardWidth = self.cards[1].width or 50  -- Default card width
+    local spacing = 5
+    return #self.cards * cardWidth + (#self.cards - 1) * spacing
+end
+
+return CardGroup;

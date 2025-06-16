@@ -1,17 +1,19 @@
 local GameScene = require('scenes.GameScene')
 
 function love.load()
-    currentScene = GameScene:new()
+    math.randomseed(os.time() + love.timer.getTime() * 1000)
+    CurrentScene = GameScene:new()
+    love.window.setFullscreen(true)
 end
 
 function love.update(dt)
-    currentScene:update()
+    CurrentScene:update()
 end
 
 function love.draw()
-    currentScene:draw()
+    CurrentScene:draw()
 end
 
-function love.mousepressed(x, y, button)
-    currentScene:mousepressed(x, y, button)
-end
+-- function love.mousepressed(x, y, button)
+--     CurrentScene:mousepressed(x, y, button)
+-- end
