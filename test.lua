@@ -9,3 +9,25 @@
 -- print('enter a number: ')
 -- a = io.read("*number")
 -- print(fact(a))
+
+Player = {x = 5, y = 5, health = 100}
+
+function Player:new(o)
+    o = o or {}
+    setmetatable(o, self)
+    self.__index = self
+    return o
+end
+
+function Player:move(dx, dy)
+    self.x = self.x + dx
+    self.y = self.y + dy
+end
+
+-- Create instances
+player1 = Player:new{x = 10, y = 20}
+player2 = Player:new()
+
+player1:move(5, 5)
+print(player1.x, player1.y, player1.health)
+print(player2.x, player2.y, player2.health)
