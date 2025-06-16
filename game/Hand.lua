@@ -9,7 +9,7 @@ function Hand:new()
         maxCards = 7,
         selectedCards = {},
         x = 10,
-        y = love.graphics.getHeight() - 100
+        y = love.graphics.getHeight()
     };
     setmetatable(hand, Hand);
     hand:drawCards(); -- first draw
@@ -50,9 +50,10 @@ end
 function Hand:draw()
     for i, card in ipairs(self.cards) do
         card.x = self.x + (i - 1) * 60
-        card.y = self.y
+        card.y = love.graphics.getHeight() - 100
         card:draw()
     end
+    print(self.y, self.x, love.graphics.getHeight())
 end
 
 return Hand;

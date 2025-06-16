@@ -37,10 +37,9 @@ end;
 function CardGroup:setPosition(x, y)
     self.x = x
     self.y = y
-    
-    -- If you also want to update individual card positions
+
     for i, card in ipairs(self.cards) do
-        card.x = x + (i - 1) * (card.width + 5) -- Space cards out
+        card.x = x + (i - 1) * (card.width + 1) -- Space cards out
         card.y = y
     end
 end
