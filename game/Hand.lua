@@ -12,7 +12,7 @@ function Hand:new()
         y = love.graphics.getHeight()
     };
     setmetatable(hand, Hand);
-    hand:drawCards(); -- first draw
+    hand:drawCards(); 
     return hand;
 end
 
@@ -24,7 +24,6 @@ end
 
 function Hand:playCards(cardIndices)
     local playedCards = {};
-    -- remove selected cards and return them
     for i = #cardIndices, 1, -1 do
         table.insert(playedCards, table.remove(self.cards, cardIndices[i]));
     end;

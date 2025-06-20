@@ -14,6 +14,6 @@ function love.draw()
     CurrentScene:draw()
 end
 
--- function love.mousepressed(x, y, button)
---     CurrentScene:mousepressed(x, y, button)
--- end
+function love.mousePressed(x, y, button)
+    CurrentScene:mousepressed(x, y, button)
+end

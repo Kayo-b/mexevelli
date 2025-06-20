@@ -44,18 +44,18 @@ end;
 
 
 function Card:getSuitSymbol()
-    if self.suit == "hearts" then return "♥";
-    elseif self.suit == "diamonds" then return "♦";
-    elseif self.suit == "clubs" then return "♣";
-    elseif self.suit == "spades" then return "♠";
+    if self.suit == "hearts" then return "H";
+    elseif self.suit == "diamonds" then return "D";
+    elseif self.suit == "clubs" then return "C";
+    elseif self.suit == "spades" then return "S";
     else return "";
     end;
 end;
 
--- function Card:update(dt)
---     self.x = self.x or 0
---     self.y = self.y or 0
--- end
+function Card:update(dt)
+    self.x = self.x or 0
+    self.y = self.y or 0
+end
 
 -- function Card:setPosition(x, y)
 --     self.x = x or 0

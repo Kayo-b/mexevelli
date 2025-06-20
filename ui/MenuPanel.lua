@@ -1,0 +1,101 @@
+local MenuPanel = {}
+MenuPanel.__index = MenuPanel
+
+function MenuPanel:new()
+    local panel = {
+        x = 10, 
+        y = 10,
+        width = 190,
+        height = 300,
+        buttons = {},
+        visible = true
+    }
+    
+    panel.buttons = {
+        {
+            text = "End Turn",
+            x = panel.x + 10,
+            y = panel.y + 20,
+            width = 170,
+            height = 40,
+            action = "end_turn"
+        },
+        {
+            text = "Reset Board",
+            x = panel.x + 10,
+            y = panel.y + 70,
+            width = 170,
+            height = 40,
+            action = "reset_board"
+        },
+        {
+            text = "Settings",
+            x = panel.x + 10,
+            y = panel.y + 120,
+            width = 170,
+            height = 40,
+            action = "settings"
+        }
+    }
+    
+    setmetatable(panel, MenuPanel)
+    return panel
+end
+
+function MenuPanel:update(dt)
+end
+
+function MenuPanel:draw()
+    if not self.visible then return end
+    
+    -- love.graphics.setColor(0.2, 0.2, 0.2, 0.9)
+    -- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    
+    -- love.graphics.setColor(0.5, 0.5, 0.5, 1)
+    -- love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    
+    for _, button in ipairs(self.buttons) do
+        self:drawButton(button)
+    end
+    
+    love.graphics.setColor(1, 1, 1, 1) 
+end
+
+function MenuPanel:drawButton(button)
+    love.graphics.setColor(0.4, 0.4, 0.4, 1)
+    love.graphics.rectangle("fill", button.x, button.y, button.width, button.height)
+    
+    love.graphics.setColor(0.6, 0.6, 0.6, 1)
+    love.graphics.rectangle("line", button.x, button.y, button.width, button.height)
+    
+    love.graphics.setColor(1, 1, 1, 1)
+    local font = love.graphics.getFont()
+    local textWidth = font:getWidth(button.text)
+    local textHeight = font:getHeight()
+    local textX = button.x + (button.width - textWidth) / 2
+    local textY = button.y + (button.height - textHeight) / 2
+    love.graphics.print(button.text, textX, textY)
+end
+
+function MenuPanel:mousepressed(x, y, button)
+    if not self.visible or button ~= 1 then return end
+    
+    for _, btn in ipairs(self.buttons) do
+        if self:isMouseOverButton(x, y, btn) then
+            return btn.action
+        end
+    end
+    
+    return nil
+end
+
+function MenuPanel:isMouseOverButton(x, y, button)
+    return x >= button.x and x <= button.x + button.width and
+           y >= button.y and y <= button.y + button.height
+end
+
+function MenuPanel:toggle()
+    self.visible = not self.visible
+end
+
+return MenuPanel

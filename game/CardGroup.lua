@@ -39,17 +39,26 @@ function CardGroup:setPosition(x, y)
     self.y = y
 
     for i, card in ipairs(self.cards) do
-        card.x = x + (i - 1) * (card.width + 1) -- Space cards out
+        card.x = x + (i - 1) * (card.width + 1) 
         card.y = y
     end
 end
 
 function CardGroup:getWidth()
     if #self.cards == 0 then return 0 end
-    
-    local cardWidth = self.cards[1].width or 50  -- Default card width
+
+    local cardWidth = self.cards[1].width or 50
     local spacing = 5
     return #self.cards * cardWidth + (#self.cards - 1) * spacing
 end
+
+function CardGroup:update(dt)
+    for _, card in ipairs(self.cards) do
+        if card.update then
+            card.update(dt)
+        end
+    end
+end
+
 
 return CardGroup;

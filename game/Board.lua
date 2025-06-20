@@ -26,7 +26,7 @@ function Board:addCardGroup(cards, groupType)
     local group = CardGroup:new(cards, groupType)
     table.insert(self.cardGroups, group)
     self:arrangeGroups()
-    -- print(self.width, self.height)
+    -- print(self.width, self.height )
 end
 
 function Board:draw()
@@ -64,6 +64,16 @@ function Board:arrangeGroups()
             y = y + 80
         end
     end
+end
+
+function Board:update(dt)
+    for _, group in ipairs(self.cardGroups) do
+        group:update(dt)
+    end
+
+    -- self:updateScorePopups(dt)
+
+    -- self:updateDropZoneHighlights(dt)
 end
 
 return Board
