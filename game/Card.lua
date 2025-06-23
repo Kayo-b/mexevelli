@@ -57,9 +57,9 @@ function Card:update(dt)
     self.y = self.y or 0
 end
 
--- function Card:setPosition(x, y)
---     self.x = x or 0
---     self.y = y or 0
--- end
+function Card:setPosition(x, y)
+    self.x = x or 0
+    self.y = y or 0
+end
 
 return Card;

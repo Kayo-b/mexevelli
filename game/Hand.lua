@@ -6,7 +6,8 @@ local Card = require('game.Card');
 function Hand:new()
     local hand = {
         cards = {},
-        maxCards = 7,
+        maxCards = 21,
+        initialHand = 11,
         selectedCards = {},
         x = 10,
         y = love.graphics.getHeight()
@@ -17,9 +18,13 @@ function Hand:new()
 end
 
 function Hand:drawCards()
-    while #self.cards < self.maxCards do
+    while #self.cards < self.initialHand do
         table.insert(self.cards, self:generateRandomCard());
     end;
+end
+
+function Hand:drawOneCard()
+    table.insert(self.cards, self:generateRandomCard());
 end
 
 function Hand:playCards(cardIndices)
@@ -36,7 +41,7 @@ function Hand:generateRandomCard()
 
     local randomValue = values[math.random(1, #values)];
     local randomSuit = suits[math.random(1, #suits)];
-    print('random values: ', randomSuit, randomValue)
+    -- print('random values: ', randomSuit, randomValue)
     return Card:new(randomValue, randomSuit);
 end
 
@@ -50,9 +55,25 @@ function Hand:draw()
     for i, card in ipairs(self.cards) do
         card.x = self.x + (i - 1) * 60
         card.y = love.graphics.getHeight() - 100
+        if card.selected then
+            card.y = card.y - 20
+        end
         card:draw()
     end
-    print(self.y, self.x, love.graphics.getHeight())
+    -- print(self.y, self.x, love.graphics.getHeight())
+end
+
+function Hand:mousepressed(x, y, button)
+    for i, card in ipairs(self.cards) do
+        if x >= card.x and x <= card.x + card.width and
+        y >= card.y and y <= card.y + card.height then
+            card.selected = not card.selected
+            print('card clicked', card.suit, card.selected)
+            return true
+        end
+    end
+    print('No card clicked')
+    return false
 end
 
 return Hand;

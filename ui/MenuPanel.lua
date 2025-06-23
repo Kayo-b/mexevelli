@@ -12,30 +12,47 @@ function MenuPanel:new()
     }
     
     panel.buttons = {
+        -- {
+        --     text = "End Turn",
+        --     x = panel.x + 10,
+        --     y = panel.y + 20,
+        --     width = 170,
+        --     height = 40,
+        --     action = "end_turn"
+        -- },
+        -- {
+        --     text = "Reset Board",
+        --     x = panel.x + 10,
+        --     y = panel.y + 70,
+        --     width = 170,
+        --     height = 40,
+        --     action = "reset_board"
+        -- },
+        -- {
+        --     text = "Settings",
+        --     x = panel.x + 10,
+        --     y = panel.y + 120,
+        --     width = 170,
+        --     height = 40,
+        --     action = "settings"
+        -- },
         {
-            text = "End Turn",
+            text = "Draw Card",
             x = panel.x + 10,
-            y = panel.y + 20,
+            y = panel.y + 170,
             width = 170,
             height = 40,
-            action = "end_turn"
+            action = "draw_card"
         },
         {
-            text = "Reset Board",
+            text = "Play Cards",
             x = panel.x + 10,
-            y = panel.y + 70,
+            y = panel.y + 220,
             width = 170,
             height = 40,
-            action = "reset_board"
-        },
-        {
-            text = "Settings",
-            x = panel.x + 10,
-            y = panel.y + 120,
-            width = 170,
-            height = 40,
-            action = "settings"
+            action = "play_cards"
         }
+
     }
     
     setmetatable(panel, MenuPanel)
@@ -58,7 +75,7 @@ function MenuPanel:draw()
         self:drawButton(button)
     end
     
-    love.graphics.setColor(1, 1, 1, 1) 
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 function MenuPanel:drawButton(button)
@@ -82,6 +99,7 @@ function MenuPanel:mousepressed(x, y, button)
     
     for _, btn in ipairs(self.buttons) do
         if self:isMouseOverButton(x, y, btn) then
+            print('menu btn clicked', btn.action)
             return btn.action
         end
     end
