@@ -26,12 +26,14 @@ function GameScene:update(dt)
     self.hand:update(dt)
     self.board:update(dt)
     self.menuPanel:update(dt)
+    -- self.cardGroup:update(dt)
 end
 
 function GameScene:draw()
     self.board:draw()
     self.hand:draw()
     self.menuPanel:draw()
+    -- self.cardGroup:draw()
     -- self.scoreTracker()
 end
 
@@ -45,8 +47,11 @@ function GameScene:mousepressed(x, y, button)
     elseif action == 'end_turn' then
         --
     elseif action == 'play_cards' then
-        local playedCards = self.hand:playCards()
-        self.cardGroup(playedCards, _)
+        local selectedIndices = self.hand:getSelectedCardIndices()
+        if #selectedIndices > 0 then
+            local playedCards = self.hand:playCards(selectedIndices)
+            self.board:addCardGroup(playedCards)
+        end
     end
     -- self.board:mousepressed(x, y, button)
 end

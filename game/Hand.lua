@@ -35,6 +35,16 @@ function Hand:playCards(cardIndices)
     return playedCards;
 end
 
+function Hand:getSelectedCardIndices()
+    local indices = {}
+    for i, card in ipairs(self.cards) do
+        if card.selected then
+            table.insert(indices, i)
+        end
+    end
+    return indices
+end
+
 function Hand:generateRandomCard()
     local values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     local suits = {"hearts", "diamonds", "clubs", "spades"};
