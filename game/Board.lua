@@ -47,7 +47,9 @@ function Board:draw()
     love.graphics.setColor(self.borderColor)
     love.graphics.setLineWidth(3)
     love.graphics.rectangle("line", self.x, self.y, width, height)
-
+    love.graphics.line(500, 1250, 2000, 1250)
+    love.graphics.line(250, 100, 250, 900)
+    -- love.graphics.rectangle("line", 300, 300, 50, 50)
     love.graphics.setColor(1, 1, 1)
     love.graphics.print("board", self.x + 10, self.y + 10)
 
