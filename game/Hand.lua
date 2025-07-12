@@ -13,7 +13,7 @@ function Hand:new()
         y = love.graphics.getHeight()
     };
     setmetatable(hand, Hand);
-    hand:drawCards(); 
+    hand:drawCards();
     return hand;
 end
 

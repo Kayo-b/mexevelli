@@ -32,7 +32,7 @@ function Board:addCardGroup(cards, groupType)
     --     local cards = cardGroupOrCards or {}
     --     group = CardGroup:new(cards, groupType)
     -- end
-    
+
     table.insert(self.cardGroups, group)
     self:arrangeGroups()
 end
@@ -67,14 +67,13 @@ end
 -- function Board:arrangeGroups()
 --     local startX, startY = 100, 100
 --     local spacing = 250  -- Much larger spacing to ensure separation
-    
+
 --     for i, group in ipairs(self.cardGroups) do
 --         local x = startX + (i - 1) * spacing  -- Simple: 100, 350, 600, etc.
 --         local y = startY
-        
 --         print('Group', i, 'positioned at:', x, y)
+
 --         group:setPosition(x, y)
-        
 --         -- Verify it was actually set
 --         print('Group', i, 'self.x after setPosition:', group.x, group.y)
 --     end
@@ -82,17 +81,17 @@ end
 
 --grid pattern
 function Board:arrangeGroups()
-    local startX, startY = 500, 500
-    local spacing = 30
+    local startX, startY = 250, -100
+    local spacing = 15
     local groupsPerRow = 3
-    
+
     for i, group in ipairs(self.cardGroups) do
         local row = math.floor((i - 1) / groupsPerRow)
         local col = (i - 1) % groupsPerRow
-        
+
         local x = startX + col * (group:getWidth() + spacing)
         local y = startY + row * 120
-        
+
         group:setPosition(x, y)
     end
 end

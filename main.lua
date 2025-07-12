@@ -3,7 +3,8 @@ local GameScene = require('scenes.GameScene')
 function love.load()
     math.randomseed(os.time() + love.timer.getTime() * 1000)
     CurrentScene = GameScene:new()
-    love.window.setFullscreen(true)
+    love.window.setFullscreen(false)
+    love.window.setMode(1024, 768)
 end
 
 function love.update(dt)

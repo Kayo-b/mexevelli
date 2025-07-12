@@ -41,7 +41,7 @@ function CardGroup:setPosition(x, y)
     self.y = y
     print(self.x, self.y, 'card group position')
     for i, card in ipairs(self.cards) do
-        card.x = x + (i - 1) * (card.width + 1) 
+        card.x = x + (i - 1) * (card.width + 1)
         card.y = y
     end
 end
