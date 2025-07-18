@@ -46,7 +46,8 @@ function Hand:getSelectedCardIndices()
 end
 
 function Hand:generateRandomCard()
-    local values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    -- decide if Aces can be lower and higher cards
+    local values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
     local suits = {"hearts", "diamonds", "clubs", "spades"};
 
     local randomValue = values[math.random(1, #values)];
@@ -78,7 +79,7 @@ function Hand:mousepressed(x, y, button)
         if x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height then
             card.selected = not card.selected
-            print('card clicked', card.suit, card.selected)
+            print('card clicked', card.suit, card.value, card.selected)
             return true
         end
     end

@@ -50,6 +50,11 @@ function GameScene:mousepressed(x, y, button)
         local selectedIndices = self.hand:getSelectedCardIndices()
         if #selectedIndices > 0 then
             local playedCards = self.hand:playCards(selectedIndices)
+            print('played cards:')
+            for i, card in ipairs(playedCards) do
+                print("Card " .. i .. ":", card.suit, card.value)
+            end
+
             self.board:addCardGroup(playedCards)
         end
     end

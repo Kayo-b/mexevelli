@@ -34,7 +34,7 @@ function Card:draw()
 end;
 
 function Card:getDisplayValue()
-    if self.value == 1 then return "A";
+    if self.value == 14 then return "A";
     elseif self.value == 11 then return "J";
     elseif self.value == 12 then return "Q";
     elseif self.value == 13 then return "K";
