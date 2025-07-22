@@ -74,6 +74,18 @@ function Hand:draw()
     -- print(self.y, self.x, love.graphics.getHeight())
 end
 
+function Hand:sort()
+    local sortType = 'sameKind'
+    if sortType == 'sameKind' then
+        table.sort(self.cards, function(a, b)
+            return a.value < b.value
+        end)
+        for i, card in ipairs(self.cards) do
+            print('card and index:', card.value, i)
+        end
+    end
+end
+
 function Hand:mousepressed(x, y, button)
     for i, card in ipairs(self.cards) do
         if x >= card.x and x <= card.x + card.width and

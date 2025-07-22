@@ -51,6 +51,14 @@ function MenuPanel:new()
             width = 170,
             height = 40,
             action = "play_cards"
+        },
+        {
+            text = "Sort Cards",
+            x = panel.x + 10,
+            y = panel.y + 270,
+            width = 170,
+            height = 40,
+            action = "sort_cards"
         }
 
     }

@@ -3,6 +3,7 @@ GameScene.__index = GameScene
 
 local Board = require('game.Board')
 local Hand = require('game.Hand')
+local HandValidator = require('game.HandValidator')
 -- local ScoreTracker = require('game.ScoreTracker')
 local MenuPanel = require('ui.MenuPanel')
 local CardGroup = require('game.CardGroup')
@@ -11,6 +12,7 @@ function GameScene:new()
     local scene = {
         board = Board:new(),
         hand = Hand:new(),
+        handValidator = HandValidator:new(),
         -- scoreTracker = ScoreTracker:new(),
         menuPanel = MenuPanel:new(),
         cardGroup = CardGroup:new(),
@@ -48,7 +50,8 @@ function GameScene:mousepressed(x, y, button)
         --
     elseif action == 'play_cards' then
         local selectedIndices = self.hand:getSelectedCardIndices()
-        if #selectedIndices > 0 then
+        local validHand = self.handValidator:validatePlay(selectedIndices)
+        if validHand then
             local playedCards = self.hand:playCards(selectedIndices)
             print('played cards:')
             for i, card in ipairs(playedCards) do
@@ -57,6 +60,8 @@ function GameScene:mousepressed(x, y, button)
 
             self.board:addCardGroup(playedCards)
         end
+    elseif action == 'sort_cards' then
+        self.hand:sort()
     end
     -- self.board:mousepressed(x, y, button)
 end
