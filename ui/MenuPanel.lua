@@ -3,12 +3,14 @@ MenuPanel.__index = MenuPanel
 
 function MenuPanel:new()
     local panel = {
-        x = 10, 
+        x = 10,
         y = 10,
         width = 190,
         height = 300,
         buttons = {},
-        visible = true
+        visible = true,
+        currentScore = 0,
+        score = {},
     }
     
     panel.buttons = {
@@ -62,12 +64,28 @@ function MenuPanel:new()
         }
 
     }
+
+    panel.score = {
+        {
+            text = "Score: 0",
+            x = panel.x + 10,
+            y = panel.y + 330,
+            width = 170,
+            height = 40,
+
+        }
+    }
     
     setmetatable(panel, MenuPanel)
     return panel
 end
 
 function MenuPanel:update(dt)
+end
+
+function MenuPanel:updateScore(score)
+    self.currentScore = score or 0
+    self.score.text = "Score: " .. self.currentScore
 end
 
 function MenuPanel:draw()
@@ -82,6 +100,7 @@ function MenuPanel:draw()
     for _, button in ipairs(self.buttons) do
         self:drawButton(button)
     end
+    self:drawScore()
     
     love.graphics.setColor(1, 1, 1, 1)
 end
@@ -100,6 +119,22 @@ function MenuPanel:drawButton(button)
     local textX = button.x + (button.width - textWidth) / 2
     local textY = button.y + (button.height - textHeight) / 2
     love.graphics.print(button.text, textX, textY)
+end
+
+function MenuPanel:drawScore()
+    love.graphics.setColor(0.2, 0.3, 0.6, 0.9) 
+    love.graphics.rectangle("fill", self.score.x, self.score.y, self.score.width, self.score.height)
+    
+    love.graphics.setColor(0.4, 0.5, 0.8, 1) 
+    love.graphics.rectangle("line", self.score.x, self.score.y, self.score.width, self.score.height)
+    
+    love.graphics.setColor(1, 1, 1, 1)  
+    local font = love.graphics.getFont()
+    local textWidth = font:getWidth(self.score.text)
+    local textHeight = font:getHeight()
+    local textX = self.score.x + (self.score.width - textWidth) / 2
+    local textY = self.score.y + (self.score.height - textHeight) / 2
+    love.graphics.print(self.score.text, textX, textY)
 end
 
 function MenuPanel:mousepressed(x, y, button)

@@ -28,6 +28,9 @@ function GameScene:update(dt)
     self.hand:update(dt)
     self.board:update(dt)
     self.menuPanel:update(dt)
+    local score = self.hand.cardGroup.baseScore or 0
+    self.menuPanel:updateScore(score)
+    self.menuPanel:update(dt)
     -- self.cardGroup:update(dt)
 end
 

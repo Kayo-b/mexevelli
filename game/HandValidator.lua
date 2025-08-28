@@ -10,6 +10,7 @@ end
 function HandValidator:validatePlay(selectedCards)
     local groups = self:separateIntoGroups(selectedCards)
     local totalScore = 0
+    print('groups: ', groups)
     return true
     -- for _, group in ipairs(groups) do
     --     local isValid, score = self:validateGroup(group)

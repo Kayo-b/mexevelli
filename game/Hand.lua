@@ -1,7 +1,9 @@
 local Hand = {}
 Hand.__index = Hand
 
-local Card = require('game.Card');
+local Card = require('game.Card')
+local HandValidator = require('game.HandValidator')
+local CardGroup = require('game.CardGroup')
 
 function Hand:new()
     local hand = {
@@ -10,7 +12,8 @@ function Hand:new()
         initialHand = 11,
         selectedCards = {},
         x = 10,
-        y = love.graphics.getHeight()
+        y = love.graphics.getHeight(),
+        cardGroup = CardGroup:new(),
     };
     setmetatable(hand, Hand);
     hand:drawCards();
@@ -91,7 +94,9 @@ function Hand:mousepressed(x, y, button)
         if x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height then
             card.selected = not card.selected
-            print('card clicked', card.suit, card.value, card.selected)
+            print('card clicked', card.suit, card.value, card.selected, self.cards)
+            self.cardGroup:addCards(self.cards)
+            print(self.cardGroup.baseScore,'SCORE 2')
             return true
         end
     end

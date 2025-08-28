@@ -15,6 +15,7 @@ function CardGroup:new(cards, groupType)
 end;
 
 function CardGroup:addCards(cards)
+    print(cards,'CARDS in card group')
     for _, card in ipairs(cards) do
         table.insert(self.cards, card)
     end
@@ -26,6 +27,7 @@ function CardGroup:calculateScore()
     for _, card in ipairs(self.cards) do
         self.baseScore = self.baseScore + card.value;
     end;
+    print(self.baseScore)
 end;
 
 function CardGroup:draw()
