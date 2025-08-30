@@ -49,6 +49,10 @@ iter = values(t)
 --     print(ele)
 -- end
 
-for ele in values(t) do
-    print(ele)
-end
+-- for ele in values(t) do
+--     print(ele)
+-- end
+iterator = values(t)
+print(values(t))
+print(iterator())
+print(iterator())

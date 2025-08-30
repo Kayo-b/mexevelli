@@ -15,8 +15,8 @@ Scene-based architechture dividing the game between board, card sets, individual
 
 ### todos 
  - delimit board areas: board playing field, hand field, score field
- - add score loginc
- - add hand sequences rules and logic 
+ - add score logic
+ - add hand sequencesrules and logic 
  - add basic menu
  - set minimum valid starting hand score value
  - add round system
