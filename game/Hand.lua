@@ -4,6 +4,7 @@ Hand.__index = Hand
 local Card = require('game.Card')
 local HandValidator = require('game.HandValidator')
 local CardGroup = require('game.CardGroup')
+local aux = require('utils.aux')
 
 function Hand:new()
     local hand = {
@@ -94,14 +95,32 @@ function Hand:mousepressed(x, y, button)
         if x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height then
             card.selected = not card.selected
-            print('card clicked', card.suit, card.value, card.selected, self.cards)
+            print('card clicked', card.suit, card.value, card.selected)
             self.cardGroup:addCards(self.cards)
+            table.insert(self.selectedCards, card)
             print(self.cardGroup.baseScore,'SCORE 2')
+            -- Hand:handleSelectedCards(card)
+            aux.printTable(self.selectedCards)
             return true
         end
     end
     print('No card clicked')
     return false
 end
+
+function Hand:handleSelectedCards(card)
+    if #self.selectedCards == 0 then
+        table.insert(self.selectedCards, card)
+    else
+        for k, selectedCard in ipairs(self.selectedCards) do
+            if card.selected then
+                table.remove(self.selectedCards, k)
+            else
+                table.insert(self.selectedCards, card)
+            end
+        end
+    end
+end
+
 
 return Hand;

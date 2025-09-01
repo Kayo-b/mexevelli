@@ -16,16 +16,23 @@ end;
 
 function CardGroup:addCards(cards)
     print(cards,'CARDS in card group')
-    for _, card in ipairs(cards) do
-        table.insert(self.cards, card)
+    for i, card in ipairs(cards) do
+        if card.selected then
+            table.insert(self.cards, card)
+        else
+            table.remove(self.cards, i)
+        end
     end
-    self:calculateScore();
+        self:calculateScore();
 end;
 
 function CardGroup:calculateScore()
     self.baseScore = 0;
     for _, card in ipairs(self.cards) do
-        self.baseScore = self.baseScore + card.value;
+        if card.selected then
+            print(card.value, 'score +')
+            self.baseScore = self.baseScore + card.value;
+        end
     end;
     print(self.baseScore)
 end;
