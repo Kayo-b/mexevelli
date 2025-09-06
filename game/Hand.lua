@@ -100,7 +100,7 @@ function Hand:mousepressed(x, y, button)
             table.insert(self.selectedCards, card)
             print(self.cardGroup.baseScore,'SCORE 2')
             -- Hand:handleSelectedCards(card)
-            aux.printTable(self.selectedCards)
+            -- aux.printTable(self.selectedCards)
             return true
         end
     end

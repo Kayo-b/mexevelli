@@ -11,4 +11,16 @@ function aux.printTable(t)
     end
 end
 
+function aux.isCardRepeated(t, cards)
+    for i, card in pairs(cards) do
+        if t == card then
+            print('CARD REPEATED', card.value, t.value)
+            return true
+        else
+            print('CARD NOT REPEATED')
+            return false
+        end
+    end
+end
+
 return aux

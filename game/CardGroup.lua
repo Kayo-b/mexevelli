@@ -1,6 +1,8 @@
 local CardGroup = {};
 CardGroup.__index = CardGroup;
 
+local aux = require('utils.aux')
+
 function CardGroup:new(cards, groupType)
     local group = {
         cards = cards or {},
@@ -15,12 +17,11 @@ function CardGroup:new(cards, groupType)
 end;
 
 function CardGroup:addCards(cards)
-    print(cards,'CARDS in card group')
+    self.cards = {}
     for i, card in ipairs(cards) do
+        print(card.value, card.selected)
         if card.selected then
             table.insert(self.cards, card)
-        else
-            table.remove(self.cards, i)
         end
     end
         self:calculateScore();
@@ -29,12 +30,8 @@ end;
 function CardGroup:calculateScore()
     self.baseScore = 0;
     for _, card in ipairs(self.cards) do
-        if card.selected then
-            print(card.value, 'score +')
-            self.baseScore = self.baseScore + card.value;
-        end
+        self.baseScore = self.baseScore + card.value;
     end;
-    print(self.baseScore)
 end;
 
 function CardGroup:draw()
