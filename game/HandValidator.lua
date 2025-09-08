@@ -43,7 +43,29 @@ function HandValidator:separateIntoGroups(selectedCards)
 end
 
 function HandValidator:isValidRun(cards)
-    --add rule for runs
+    -- i need to sort the has table based on the id values
+    table.sort(cards, function(a, b)
+        print(a.suitId,b.suitId,'<<<')
+        return a.suitId < b.suitId
+    end)
+    local count = 0
+    for i ,card in ipairs(cards) do
+        print('card :', cards[i].suitId,'length: ',#cards, i)
+        if #cards > 1 then
+            if i == #cards then return count >= 3 end
+            local test1 = cards[i].suitId
+            local test2 = cards[i+1].suitId
+            print(cards[i].suitId,'<<<<<><><><>', test1)
+            print(cards[i+1].suitId,'<<<<<><><><>',test2)
+            print(test2-test1)
+            if cards[i+1].suitId - cards[i].suitId == 1 then
+                count = count + 1
+                print('counting!', count)
+            end
+        end
+    end
+    print('count:', count)
+    return count >= 3
 end
 
 function HandValidator:isValidSet(cards)

@@ -1,7 +1,7 @@
-local CardGroup = {};
-CardGroup.__index = CardGroup;
-
+local CardGroup = {}
+local HandValidator = require('game.HandValidator')
 local aux = require('utils.aux')
+CardGroup.__index = CardGroup
 
 function CardGroup:new(cards, groupType)
     local group = {
@@ -9,7 +9,9 @@ function CardGroup:new(cards, groupType)
         groupType = groupType,
         x = 500,
         y = 0,
-        baseScore = 0
+        baseScore = 0,
+        handValidator = HandValidator:new()
+
     };
     setmetatable(group, CardGroup);
     group:calculateScore();
@@ -24,6 +26,8 @@ function CardGroup:addCards(cards)
             table.insert(self.cards, card)
         end
     end
+        local isValid = HandValidator:isValidRun(self.cards)
+        if isValid then print('Is Valid? ', isValid) end
         self:calculateScore();
 end;
 

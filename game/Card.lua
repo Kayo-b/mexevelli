@@ -3,6 +3,7 @@ Card.__index = Card;
 
 function Card:new(value, suit)
     local card = {
+        suitId = value,
         value = value,
         suit = suit,
         width = 50,
@@ -31,14 +32,25 @@ function Card:draw()
     love.graphics.setColor(color);
     love.graphics.printf(self:getDisplayValue(), self.x, self.y + 10, self.width, "center");
     love.graphics.printf(self:getSuitSymbol(), self.x, self.y + 30, self.width, "center");
+
+    self:getValue()
 end;
 
 function Card:getDisplayValue()
-    if self.value == 14 then return "A";
-    elseif self.value == 11 then return "J";
-    elseif self.value == 12 then return "Q";
-    elseif self.value == 13 then return "K";
-    else return tostring(self.value);
+    if self.suitId == 14 then return "A";
+    elseif self.suitId == 11 then return "J";
+    elseif self.suitId == 12 then return "Q";
+    elseif self.suitId == 13 then return "K";
+    else return tostring(self.suitId);
+    end;
+end;
+
+function Card:getValue()
+    if self.suitId == 14 then self.value = 11;
+    elseif self.suitId == 11 then self.value = 10;
+    elseif self.suitId == 12 then self.value = 10;
+    elseif self.suitId == 13 then self.value = 10;
+    else self.value = self.suitId;
     end;
 end;
 
