@@ -1,5 +1,7 @@
 local HandValidator = {}
-HandValidator.__index = HandValidator 
+HandValidator.__index = HandValidator
+
+local aux = require('utils.aux')
 
 function HandValidator:new()
     local validator = {}
@@ -35,6 +37,7 @@ end
 function HandValidator:separateIntoGroups(selectedCards)
     --identify if the selected cards form groups of runs and/or sets
     print(selectedCards, 'SELECTED CARDS')
+    aux.isSequence(selectedCards)
     local groups = {1,2,3,4}
     return groups
 end
@@ -44,7 +47,7 @@ function HandValidator:isValidRun(cards)
 end
 
 function HandValidator:isValidSet(cards)
-    --add rule for sets 
+    --add rule for sets
 end
 
 return HandValidator

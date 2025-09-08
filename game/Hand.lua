@@ -95,12 +95,8 @@ function Hand:mousepressed(x, y, button)
         if x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height then
             card.selected = not card.selected
-            print('card clicked', card.suit, card.value, card.selected)
             self.cardGroup:addCards(self.cards)
             table.insert(self.selectedCards, card)
-            print(self.cardGroup.baseScore,'SCORE 2')
-            -- Hand:handleSelectedCards(card)
-            -- aux.printTable(self.selectedCards)
             return true
         end
     end
