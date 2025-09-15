@@ -44,6 +44,7 @@ end
 
 function HandValidator:isValidRun(cards)
     -- i need to sort the has table based on the id values
+    local cardsRun = {}
     table.sort(cards, function(a, b)
         print(a.suitId,b.suitId,'<<<')
         return a.suitId < b.suitId
@@ -52,7 +53,8 @@ function HandValidator:isValidRun(cards)
     for i ,card in ipairs(cards) do
         print('card :', cards[i].suitId,'length: ',#cards, i)
         if #cards > 1 then
-            if i == #cards then return count >= 3 end
+            print('OI')
+            if i == #cards then return {isValid = #cardsRun >= 3, cards = cardsRun} end
             local test1 = cards[i].suitId
             local test2 = cards[i+1].suitId
             print(cards[i].suitId,'<<<<<><><><>', test1)
@@ -60,12 +62,17 @@ function HandValidator:isValidRun(cards)
             print(test2-test1)
             if cards[i+1].suitId - cards[i].suitId == 1 then
                 count = count + 1
+                table.insert(cardsRun, card)
                 print('counting!', count)
             end
+            -- print(cardsRun[1].suitId,#cardsRun,'CARDS RUN')
         end
     end
     print('count:', count)
-    return count >= 3
+    return {
+        isValid = #cardsRun >= 3,
+        cards = cardsRun
+    }
 end
 
 function HandValidator:isValidSet(cards)

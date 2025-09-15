@@ -26,23 +26,27 @@ function CardGroup:addCards(cards)
             table.insert(self.cards, card)
         end
     end
-        local isValid = HandValidator:isValidRun(self.cards)
-        if isValid then print('Is Valid? ', isValid) end
-        self:calculateScore();
+    local result = HandValidator:isValidRun(self.cards)
+    print(result.isValid,'????<<<<<<<')
+    if result.isValid then print('Is Valid? ', result.isValid) end
+    local newCards = result.cards
+    aux.printTable(newCards)
+    self:calculateScore(newCards)
 end;
 
-function CardGroup:calculateScore()
-    self.baseScore = 0;
-    for _, card in ipairs(self.cards) do
+function CardGroup:calculateScore(cards)
+    cards = cards or self.cards
+    self.baseScore = 0
+    for _, card in ipairs(cards) do
         self.baseScore = self.baseScore + card.value;
     end;
 end;
 
 function CardGroup:draw()
     for i, card in ipairs(self.cards) do
-        card.x = self.x + (i - 1) * 40;
+        card.x = self.x + (i - 1) * 40
         card.y = self.y --love.graphics.getHeight() - 1100;
-        card:draw();
+        card:draw()
     end;
 end;
 
