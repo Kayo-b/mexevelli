@@ -61,8 +61,15 @@ function MenuPanel:new()
             width = 170,
             height = 40,
             action = "sort_cards"
+        },
+        {
+            text = "Reset Hand",
+            x = panel.x + 10,
+            y = panel.y + 320,
+            width = 170,
+            height = 40,
+            action = "reset_hand"
         }
-
     }
 
     panel.score = {
@@ -139,7 +146,7 @@ function MenuPanel:mousepressed(x, y, button)
 
     for _, btn in ipairs(self.buttons) do
         if self:isMouseOverButton(x, y, btn) then
-            print('menu btn clicked', btn.action)
+            --print('menu btn clicked', btn.action)
             return btn.action
         end
     end

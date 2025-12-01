@@ -6,9 +6,9 @@
 --     end
 -- end
 
--- print('enter a number: ')
+-- --print('enter a number: ')
 -- a = io.read("*number")
--- print(fact(a))
+-- --print(fact(a))
 
 -- Player = {x = 5, y = 5, health = 100}
 
@@ -29,8 +29,8 @@
 -- player2 = Player:new()
 
 -- player1:move(5, 5)
--- print(player1.x, player1.y, player1.health)
--- print(player2.x, player2.y, player2.health)
+-- --print(player1.x, player1.y, player1.health)
+-- --print(player2.x, player2.y, player2.health)
 
 function values(t)
     local i = 0
@@ -46,13 +46,13 @@ iter = values(t)
 -- while true do
 --     local ele = iter()
 --     if ele == nil then break end
---     print(ele)
+--     --print(ele)
 -- end
 
 -- for ele in values(t) do
---     print(ele)
+--     --print(ele)
 -- end
 iterator = values(t)
-print(values(t))
-print(iterator())
-print(iterator())
+--print(values(t))
+--print(iterator())
+--print(iterator())

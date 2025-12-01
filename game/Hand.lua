@@ -21,6 +21,12 @@ function Hand:new()
     return hand;
 end
 
+function Hand:resetHand()
+    self.cards = {}
+    self.selectedCards = {}
+    self:drawCards()
+end
+
 function Hand:drawCards()
     while #self.cards < self.initialHand do
         table.insert(self.cards, self:generateRandomCard());
@@ -56,7 +62,7 @@ function Hand:generateRandomCard()
 
     local randomValue = values[math.random(1, #values)];
     local randomSuit = suits[math.random(1, #suits)];
-    -- print('random values: ', randomSuit, randomValue)
+    -- --print('random values: ', randomSuit, randomValue)
     return Card:new(randomValue, randomSuit);
 end
 
@@ -75,17 +81,18 @@ function Hand:draw()
         end
         card:draw()
     end
-    -- print(self.y, self.x, love.graphics.getHeight())
+    -- --print(self.y, self.x, love.graphics.getHeight())
 end
 
 function Hand:sort()
     local sortType = 'sameKind'
     if sortType == 'sameKind' then
         table.sort(self.cards, function(a, b)
-            return a.value < b.value
+            print(a.value, b.value,'card value')
+            return a.suitId < b.suitId
         end)
         for i, card in ipairs(self.cards) do
-            print('card and index:', card.value, i)
+            --print('card and index:', card.value, i)
         end
     end
 end
@@ -100,7 +107,7 @@ function Hand:mousepressed(x, y, button)
             return true
         end
     end
-    print('No card clicked')
+    --print('No card clicked')
     return false
 end
 

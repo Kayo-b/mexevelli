@@ -21,13 +21,13 @@ end;
 function CardGroup:addCards(cards)
     self.cards = {}
     for i, card in ipairs(cards) do
-        print(card.value, card.selected)
+        --print(card.value, card.selected)
         if card.selected then
             table.insert(self.cards, card)
         end
     end
     local result = HandValidator:isValidRun(self.cards)
-    print(result.isValid,'????<<<<<<<')
+    --print(result.isValid,'????<<<<<<<')
     if result.isValid then print('Is Valid? ', result.isValid) end
     local newCards = result.cards
     aux.printTable(newCards)
@@ -53,7 +53,7 @@ end;
 function CardGroup:setPosition(x, y)
     self.x = x
     self.y = y
-    print(self.x, self.y, 'card group position')
+    --print(self.x, self.y, 'card group position')
     for i, card in ipairs(self.cards) do
         card.x = x + (i - 1) * (card.width + 1)
         card.y = y

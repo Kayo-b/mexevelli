@@ -71,11 +71,11 @@ end
 --     for i, group in ipairs(self.cardGroups) do
 --         local x = startX + (i - 1) * spacing  -- Simple: 100, 350, 600, etc.
 --         local y = startY
---         print('Group', i, 'positioned at:', x, y)
+--         --print('Group', i, 'positioned at:', x, y)
 
 --         group:setPosition(x, y)
 --         -- Verify it was actually set
---         print('Group', i, 'self.x after setPosition:', group.x, group.y)
+--         --print('Group', i, 'self.x after setPosition:', group.x, group.y)
 --     end
 -- end
 

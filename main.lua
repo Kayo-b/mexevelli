@@ -16,6 +16,6 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button)
-    print('a')
+    --print('a')
     CurrentScene:mousepressed(x, y, button)
 end
