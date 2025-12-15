@@ -75,7 +75,7 @@ function MenuPanel:new()
     panel.score = {
         text = "Score: 0",
         x = panel.x + 10,
-        y = panel.y + 330,
+        y = panel.y + 400,
         width = 170,
         height = 40,
     }

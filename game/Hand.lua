@@ -85,16 +85,17 @@ function Hand:draw()
 end
 
 function Hand:sort()
-    local sortType = 'sameKind'
-    if sortType == 'sameKind' then
-        table.sort(self.cards, function(a, b)
-            print(a.value, b.value,'card value')
-            return a.suitId < b.suitId
-        end)
-        for i, card in ipairs(self.cards) do
-            --print('card and index:', card.value, i)
-        end
-    end
+    HandValidator:sortSuits(self.cards)
+    -- local sortType = 'sameKind'
+    -- if sortType == 'sameKind' then
+    --     table.sort(self.cards, function(a, b)
+    --         print(a.value, b.value,'card value')
+    --         return a.suitId < b.suitId
+    --     end)
+    --     for i, card in ipairs(self.cards) do
+    --         --print('card and index:', card.value, i)
+    --     end
+    -- end
 end
 
 function Hand:mousepressed(x, y, button)

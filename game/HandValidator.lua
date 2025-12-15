@@ -48,20 +48,54 @@ end
     -- then sort by sequence to see if there are elegible runs -> count score
     -- then sort by same suite, if it has tripplet from a diff suite -> count score 
 
-function HandValidator:validateSuites(selectedCards)
-    print(selectedCards, 'selected cards')
-    -- see if the sequence suites are the same
-    if selectedCards then
-        for i, card in ipairs(selectedCards) do
-            print(card.suit, 'card suit')
-        end
-    end
+function HandValidator:sortSuits(selectedCards)
 
+    -- local i = 1
+    -- local count = 0
+    -- local countLoop = 0
+    -- while i <= #selectedCards do
+    --     if i == #selectedCards then break end
+    --     local currentCard = selectedCards[i]
+    --     local nextCard = selectedCards[i+1]
+    --     if currentCard.suit ~= nextCard.suit then
+    --         table.remove(selectedCards, i+1)
+    --         table.insert(selectedCards, nextCard)
+    --     elseif i < #selectedCards then
+    --         print(currentCard.suit, nextCard.suit, i, 'selected cards num:', #selectedCards, 'count loop: ', countLoop)
+    --         i = i + 1
+    --     end
+    --     count = count + 1
+    --     if count == #selectedCards and i < #selectedCards then
+    --         i = i + 1
+    --         print(count, currentCard.suit, selectedCards[i].suit, i, #selectedCards)
+    --         count = 0
+    --     end
+    --     countLoop = countLoop + 1
+    --     -- print(countLoop)
+    --     if countLoop > 70 then 
+    --         print('break')
+    --         break
+    --     end
+    -- end
+
+-- better approach
+    local suitOrder = {hearts = 1, diamonds = 2, clubs = 3, spades = 4}
+    table.sort(selectedCards, function(a, b)
+        if a.suit ~= b.suit then
+            return suitOrder[a.suit] < suitOrder[b.suit]
+        else
+            return a.suitId < b.suitId
+        end
+    end)
 end
+
+
 
 function HandValidator:isValidRun(cards)
     -- i need to sort the has table based on the id values
     local cardsRun = {}
+    print(cards,'cards')
+    self:sortSuits(cards)
     table.sort(cards, function(a, b)
         --print(a.suitId,b.suitId,'<<<')
         return a.suitId < b.suitId
@@ -78,7 +112,6 @@ function HandValidator:isValidRun(cards)
             --print(cards[i+1].suitId,'<<<<<><><><>',test2)
             --print(test2-test1)
 
-            self.validateSuites(cardsRun)
             if cards[i+1].suitId - cards[i].suitId == 1 then
                 -- if cards[i].suit 
                 --print(cards[i].suit,'card!')
