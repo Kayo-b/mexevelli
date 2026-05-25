@@ -112,6 +112,35 @@ function Hand:mousepressed(x, y, button)
     return false
 end
 
+-- if mouse pressed and
+-- if mouse is down and
+-- if mouse is moving 
+-- then
+-- get current card index in the current location and save
+-- while mouse down track the x y positions of the mouse and update card position to it
+-- when mouse is up
+-- compare current index with hand card indexes on the array and determine over which card the current position is  over
+-- then get the center position of the card 
+-- then determine if the current xy position is on the left or right side of the card's center
+-- replace the dragged card into the slot  
+
+function Hand:dragCard(x, y, button)
+    if button ~= 1 then return end
+
+    for i, card in ipairs(self.cards) do
+        if x >= card.x and x <= card.x + card.width and
+        y >= card.y and y <= card.y + card.height then
+            card.selected = not card.selected
+            self.cardGroup:addCards(self.cards)
+            table.insert(self.selectedCards, card)
+            return true
+        end
+    end
+
+    --print('No card clicked')
+    return false
+end
+
 function Hand:handleSelectedCards(card)
     if #self.selectedCards == 0 then
         table.insert(self.selectedCards, card)

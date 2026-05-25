@@ -44,7 +44,7 @@ end
 
 function GameScene:mousepressed(x, y, button)
     if self.hand:mousepressed(x, y, button) then
-        --print('hand handled the click')
+        -- print('hand handled the click')
     end
     local action = self.menuPanel:mousepressed(x, y, button)
     if action == "draw_card" then
@@ -68,6 +68,8 @@ function GameScene:mousepressed(x, y, button)
     elseif action == 'reset_hand' then
         print('reset hand')
         self.hand:resetHand()
+    else
+        print('pressend on:', button);
     end
     -- self.board:mousepressed(x, y, button)
 end

@@ -24,7 +24,7 @@ function aux.isCardRepeated(t, cards)
 end
 
 function aux.isSequence(cards)
-    for i, card in cards do
+    for i, card in pairs(cards) do
         --print(cards[i])
     end
 end

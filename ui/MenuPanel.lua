@@ -159,6 +159,11 @@ function MenuPanel:isMouseOverButton(x, y, button)
         y >= button.y and y <= button.y + button.height
 end
 
+function MenuPanel:isMouseOverCard(x, y, card)
+    return x >= card.x and x <= card.x + card.width and
+        y >= card.y and y <= card.y + card.height
+end
+
 function MenuPanel:toggle()
     self.visible = not self.visible
 end

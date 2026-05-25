@@ -49,36 +49,6 @@ end
     -- then sort by same suite, if it has tripplet from a diff suite -> count score 
 
 function HandValidator:sortSuits(selectedCards)
-
-    -- local i = 1
-    -- local count = 0
-    -- local countLoop = 0
-    -- while i <= #selectedCards do
-    --     if i == #selectedCards then break end
-    --     local currentCard = selectedCards[i]
-    --     local nextCard = selectedCards[i+1]
-    --     if currentCard.suit ~= nextCard.suit then
-    --         table.remove(selectedCards, i+1)
-    --         table.insert(selectedCards, nextCard)
-    --     elseif i < #selectedCards then
-    --         print(currentCard.suit, nextCard.suit, i, 'selected cards num:', #selectedCards, 'count loop: ', countLoop)
-    --         i = i + 1
-    --     end
-    --     count = count + 1
-    --     if count == #selectedCards and i < #selectedCards then
-    --         i = i + 1
-    --         print(count, currentCard.suit, selectedCards[i].suit, i, #selectedCards)
-    --         count = 0
-    --     end
-    --     countLoop = countLoop + 1
-    --     -- print(countLoop)
-    --     if countLoop > 70 then 
-    --         print('break')
-    --         break
-    --     end
-    -- end
-
--- better approach
     local suitOrder = {hearts = 1, diamonds = 2, clubs = 3, spades = 4}
     table.sort(selectedCards, function(a, b)
         if a.suit ~= b.suit then
