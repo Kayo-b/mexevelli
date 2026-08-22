@@ -1,7 +1,7 @@
 local Hand = {}
 Hand.__index = Hand
 
-local Card = require('game.Card')
+local Deck = require('game.Deck')
 local HandValidator = require('game.HandValidator')
 local CardGroup = require('game.CardGroup')
 local aux = require('utils.aux')
@@ -12,11 +12,15 @@ function Hand:new()
         maxCards = 21,
         initialHand = 11,
         selectedCards = {},
+        sortMode = nil, -- "suit" | "rank": mode applied by the last Hand:sort()
+        movingCard = nil, -- card picked up for manual reordering
+        deck = Deck:new(),
         x = 10,
         y = love.graphics.getHeight(),
         cardGroup = CardGroup:new(),
     };
     setmetatable(hand, Hand);
+    hand.deck:shuffle();
     hand:drawCards();
     return hand;
 end
@@ -24,17 +28,31 @@ end
 function Hand:resetHand()
     self.cards = {}
     self.selectedCards = {}
+    self.movingCard = nil
+    self.deck = Deck:new()
+    self.deck:shuffle()
     self:drawCards()
 end
 
+-- Deal the opening hand from the deck (no replacement, so no duplicates).
 function Hand:drawCards()
     while #self.cards < self.initialHand do
-        table.insert(self.cards, self:generateRandomCard());
-    end;
+        local card = self.deck:draw()
+        if not card then break end
+        table.insert(self.cards, card)
+    end
 end
 
+-- Draw one card from the deck. If the deck runs out, reshuffle a fresh one.
 function Hand:drawOneCard()
-    table.insert(self.cards, self:generateRandomCard());
+    local card = self.deck:draw()
+    if not card then
+        self.deck:reshuffle()
+        card = self.deck:draw()
+    end
+    if card then
+        table.insert(self.cards, card)
+    end
 end
 
 function Hand:playCards(cardIndices)
@@ -55,15 +73,14 @@ function Hand:getSelectedCardIndices()
     return indices
 end
 
-function Hand:generateRandomCard()
-    -- decide if Aces can be lower and higher cards
-    local values = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
-    local suits = {"hearts", "diamonds", "clubs", "spades"};
-
-    local randomValue = values[math.random(1, #values)];
-    local randomSuit = suits[math.random(1, #suits)];
-    -- --print('random values: ', randomSuit, randomValue)
-    return Card:new(randomValue, randomSuit);
+function Hand:getSelectedCards()
+    local cards = {}
+    for _, card in ipairs(self.cards) do
+        if card.selected then
+            table.insert(cards, card)
+        end
+    end
+    return cards
 end
 
 function Hand:update(dt)
@@ -79,66 +96,119 @@ function Hand:draw()
         if card.selected then
             card.y = card.y - 20
         end
-        card:draw()
+        if card == self.movingCard then
+            card.y = card.y - 40 -- picked up for manual reordering
+        end
+        if card ~= self.movingCard then
+            card:draw()
+        end
     end
-    -- --print(self.y, self.x, love.graphics.getHeight())
+    -- draw the picked-up card last so it renders on top
+    if self.movingCard then
+        self.movingCard:draw()
+    end
 end
 
 function Hand:sort()
-    HandValidator:sortSuits(self.cards)
-    -- local sortType = 'sameKind'
-    -- if sortType == 'sameKind' then
-    --     table.sort(self.cards, function(a, b)
-    --         print(a.value, b.value,'card value')
-    --         return a.suitId < b.suitId
-    --     end)
-    --     for i, card in ipairs(self.cards) do
-    --         --print('card and index:', card.value, i)
-    --     end
-    -- end
+    -- Toggle: first click sorts by suit (sequences), second by rank
+    -- (pairs/triplets of different suits), third back to suit, and so on.
+    self.sortMode = (self.sortMode == "suit") and "rank" or "suit"
+    if self.sortMode == "suit" then
+        HandValidator:sortCardsBySuit(self.cards)
+    else
+        HandValidator:sortCardsByRank(self.cards)
+    end
+
+    -- sorting clears the current selection
+    for _, card in ipairs(self.cards) do
+        card.selected = false
+    end
+    self.selectedCards = {}
+    return self.sortMode
 end
 
 function Hand:mousepressed(x, y, button)
+    -- right-click toggles play-selection (left-click is used for moving cards)
+    if button == 2 then
+        for i, card in ipairs(self.cards) do
+            if x >= card.x and x <= card.x + card.width and
+            y >= card.y and y <= card.y + card.height then
+                card.selected = not card.selected
+                self.cardGroup:addCards(self.cards)
+                return true
+            end
+        end
+        return false
+    end
+
+    -- left-click: if a card is picked up, drop it at the clicked slot,
+    -- otherwise pick up the clicked card
+    if self.movingCard then
+        return self:dropCard(x, y)
+    end
+    return self:pickUpCard(x, y)
+end
+
+-- Pick up the card under the cursor for manual reordering.
+function Hand:pickUpCard(x, y)
     for i, card in ipairs(self.cards) do
         if x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height then
-            card.selected = not card.selected
-            self.cardGroup:addCards(self.cards)
-            table.insert(self.selectedCards, card)
+            self.movingCard = card
             return true
         end
     end
-    --print('No card clicked')
     return false
 end
 
--- if mouse pressed and
--- if mouse is down and
--- if mouse is moving 
--- then
--- get current card index in the current location and save
--- while mouse down track the x y positions of the mouse and update card position to it
--- when mouse is up
--- compare current index with hand card indexes on the array and determine over which card the current position is  over
--- then get the center position of the card 
--- then determine if the current xy position is on the left or right side of the card's center
--- replace the dragged card into the slot  
+-- Place the picked-up card at the slot under the cursor.
+-- Clicking the card itself, or far outside the hand row, cancels the move.
+-- The slot is found from card centres: left half of a card -> insert before
+-- it, right half (or the gap past the last card) -> insert after it.
+function Hand:dropCard(x, y)
+    local moving = self.movingCard
+    self.movingCard = nil -- the move is consumed either way
 
-function Hand:dragCard(x, y, button)
-    if button ~= 1 then return end
-
-    for i, card in ipairs(self.cards) do
-        if x >= card.x and x <= card.x + card.width and
-        y >= card.y and y <= card.y + card.height then
-            card.selected = not card.selected
-            self.cardGroup:addCards(self.cards)
-            table.insert(self.selectedCards, card)
-            return true
-        end
+    if not moving or #self.cards < 2 then
+        return false
     end
 
-    --print('No card clicked')
-    return false
+    -- clicking back on the picked-up card cancels
+    if x >= moving.x and x <= moving.x + moving.width and
+    y >= moving.y and y <= moving.y + moving.height then
+        return true
+    end
+
+    -- clicking far outside the hand row cancels
+    local minY, maxY = math.huge, -math.huge
+    for _, c in ipairs(self.cards) do
+        minY = math.min(minY, c.y)
+        maxY = math.max(maxY, c.y + c.height)
+    end
+    if y < minY - 20 or y > maxY + 20 then
+        return true
+    end
+
+    -- remove the card, then find the insertion slot from card centres
+    local currentIndex
+    for i, c in ipairs(self.cards) do
+        if c == moving then
+            currentIndex = i
+            break
+        end
+    end
+    if not currentIndex then return false end
+    table.remove(self.cards, currentIndex)
+
+    local targetIndex = #self.cards + 1
+    for i, c in ipairs(self.cards) do
+        if x < c.x + c.width / 2 then
+            targetIndex = i
+            break
+        end
+    end
+    table.insert(self.cards, targetIndex, moving)
+    return true
 end
 
 function Hand:handleSelectedCards(card)

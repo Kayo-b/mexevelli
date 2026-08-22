@@ -55,7 +55,7 @@ function MenuPanel:new()
             action = "play_cards"
         },
         {
-            text = "Sort Cards",
+            text = "Sort Cards (Suits)",
             x = panel.x + 10,
             y = panel.y + 270,
             width = 170,
@@ -162,6 +162,18 @@ end
 function MenuPanel:isMouseOverCard(x, y, card)
     return x >= card.x and x <= card.x + card.width and
         y >= card.y and y <= card.y + card.height
+end
+
+function MenuPanel:setSortMode(mode)
+    for _, btn in ipairs(self.buttons) do
+        if btn.action == "sort_cards" then
+            if mode == "rank" then
+                btn.text = "Sort Cards (Pairs)"
+            else
+                btn.text = "Sort Cards (Suits)"
+            end
+        end
+    end
 end
 
 function MenuPanel:toggle()
