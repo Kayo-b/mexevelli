@@ -44,7 +44,7 @@ end
 
 function GameScene:mousepressed(x, y, button)
     if self.hand:mousepressed(x, y, button) then
-        -- print('hand handled the click')
+        return
     end
     local action = self.menuPanel:mousepressed(x, y, button)
     if action == "draw_card" then
@@ -52,19 +52,20 @@ function GameScene:mousepressed(x, y, button)
     elseif action == 'end_turn' then
         --
     elseif action == 'play_cards' then
-        local selectedIndices = self.hand:getSelectedCardIndices()
-        local validHand = self.handValidator:validatePlay(selectedIndices)
+        local selectedCards = self.hand:getSelectedCards()
+        local validHand, score, reason = self.handValidator:validatePlay(selectedCards)
         if validHand then
+            local selectedIndices = self.hand:getSelectedCardIndices()
             local playedCards = self.hand:playCards(selectedIndices)
-            --print('played cards:')
-            for i, card in ipairs(playedCards) do
-                --print("Card " .. i .. ":", card.suit, card.value)
-            end
-
             self.board:addCardGroup(playedCards)
+            print("Played " .. #playedCards .. " cards for " .. score .. " points")
+        else
+            print("Invalid play: " .. (reason or "unknown reason"))
         end
     elseif action == 'sort_cards' then
-        self.hand:sort()
+        print('sort_cards button pressed')
+        local sortMode = self.hand:sort()
+        self.menuPanel:setSortMode(sortMode)
     elseif action == 'reset_hand' then
         print('reset hand')
         self.hand:resetHand()
